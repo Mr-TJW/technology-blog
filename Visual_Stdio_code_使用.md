@@ -30,4 +30,157 @@
 
 ## 常用快捷键
 - 格式化文档：Ctrl + Shift + F
-- 
+
+
+## C/C++ 调试问题
+1. 可以编译成功，但是无法单步调试，因为 makefile 里面 g++ 没有添加 -g 参数，即使是编译中间文件(g++ -c)，也需要添加 -g 参数，示例：
+   * window 下 makefile：
+  
+```c
+CC = g++
+
+PROJECT = dlt698
+
+LOCALDIR = .
+CFLAGS = -w -fPIC
+
+INCLUDE = -I$(LOCALDIR)/include  \
+          -I$(LOCALDIR)/../include
+
+LIB = -lpthread -L$(LOCALDIR)/../lib 
+OBJ = main.o	dlt698.o
+
+target : $(PROJECT)
+
+$(PROJECT) : $(OBJ)
+	$(CC) -g -o $@   $(INCLUDE) $^  $(LIB)
+#	-cp $@ $(LOCALDIR)/../target
+
+main.o : main.cpp
+	$(CC) $(CFLAGS) $< -c -g $(INCLUDE)
+dlt698.o : dlt698.cpp
+	$(CC) $(CFLAGS) $< -c -g $(INCLUDE)
+
+.PHONY:clean
+clean:
+	del *.o
+	del *.exe
+
+```
+
+   * Linux 下 makefile
+
+```c
+CC = g++
+
+PROJECT = dlt698
+
+LOCALDIR = .
+CFLAGS = -w -fPIC
+
+INCLUDE = -I$(LOCALDIR)/include  \
+          -I$(LOCALDIR)/../include
+
+LIB = -lpthread -L$(LOCALDIR)/../lib 
+OBJ = main.o	dlt698.o
+
+target : $(PROJECT)
+
+$(PROJECT) : $(OBJ)
+	$(CC) -g -o $@  $(INCLUDE) $^  $(LIB)
+	-cp $@ $(LOCALDIR)/../target
+
+main.o : main.cpp
+	$(CC) $(CFLAGS) $< -c -g $(INCLUDE)
+dlt698.o : dlt698.cpp
+	$(CC) $(CFLAGS) $< -c -g $(INCLUDE)
+
+.PHONY:clean
+clean:
+	-rm  $(PROJECT) -f
+	-rm *.o  -f
+	-rm $(LOCALDIR)/../target/* -f
+
+
+```
+
+2. 调试配置文件 lanunch.json ，里面的详细配置  
+   * windows 下：
+```json
+    {
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "(g++) Launch",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${fileDirname}\\${fileBasenameNoExtension}.exe", //这里是填写你的带路径的可执行文件
+                "args": [],
+                "stopAtEntry": false,
+                "cwd": "${workspaceFolder}",
+                "environment": [],
+                "externalConsole": false,
+                "MIMode": "gdb",
+                "miDebuggerPath": "D:\\codeblocks\\MinGW\\bin\\gdb.exe",
+                "preLaunchTask": "g++",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ],
+                
+            },   
+        ]
+    }
+```
+   * Linux 下：
+
+```json
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) 启动",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/dlt698", //这里填写你的带路径的可执行文件
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
+```
+
+## VS code 中的变量
+
+|变量名|作用|
+|--|--|
+|${workspaceRoot} |当前打开的文件夹的绝对路径+文件夹的名字|
+|${workspaceRootFolderName}|当前打开的文件夹的名字|
+|${file}|当前打开正在编辑的文件名，包括绝对路径，文件名，文件后缀名|
+|${relativeFile} |从当前打开的文件夹到当前打开的文件的路径|
+|${fileBasename}|当前打开的文件名+后缀名，不包括路径|
+|{fileBasenameNoExtension}|当前打开的文件的文件名，不包括路径和后缀名|
+|${fileDirname} |当前打开的文件所在的绝对路径，不包括文件名|
+|${fileExtname}|当前打开的文件的后缀名|
+|${lineNumber}|当前打开的文件，光标所在的行数|
+
