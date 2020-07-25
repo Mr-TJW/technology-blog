@@ -1,20 +1,22 @@
-# ��������֮·
+# 技术博客之路
 
 ------------------------
 [TOC]
 
-## Visual Stdio code ʹ��
+## Visual Stdio code 使用
 
-- Դ�������
+- 源代码管理
 
-- �û�����Ƭ��
+- 用户代码片段
 
-- �﷨�����Զ���
+- 语法高亮自定义
 
-- ���� C++ & ��дmakefile
+- 调试 C++ & 编写makefile
 
-- Markdown ��ʹ��
+- Markdown 的使用
 
-- ���ÿ�ݼ�
+- 常用快捷键
+
+- 数据队列
 
 
