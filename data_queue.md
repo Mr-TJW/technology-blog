@@ -125,7 +125,8 @@ void PutData(Data_Queue *data_queue, unsigned char data)
 ********************************************************************/
 void DropData(Data_Queue *data_queue)
 {
-    if((*data_queue).next == (*data_queue).start)       //数据处理完毕直接返回
+    if(((*data_queue).next == (*data_queue).start) && 
+        ((*data_queue).count != (*data_queue).size))       //数据处理完毕直接返回
     {
         (*data_queue).count = 0;
         return;
