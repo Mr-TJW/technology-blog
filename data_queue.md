@@ -1,4 +1,4 @@
-# 数据队列
+# 环形数据队列
 [TOC]
 ---
 在日常收发数据过程中，尤其多线程操作，数据的收发需要用到数据队列去处理，那么为什么要使用数据队列？什么是数据队列呢？
@@ -89,6 +89,20 @@ typedef struct
     unsigned short size;                //缓冲区大小
     unsigned char  buf[MAX_DATA_SIZE];  //数据缓冲区
 }Data_Queue;
+
+/*******************************************************************
+* funcname:	QueueInit(Data_Queue *data_queue)
+* para:	    data_queue-数据队列
+* function:	数据队列初始化
+* return:	
+********************************************************************/
+void QueueInit(Data_Queue *data_queue)
+{
+    (*data_queue).next = 0;
+    (*data_queue).start = 0;
+    (*data_queue).count = 0;
+    (*data_queue).size = MAX_DATA_SIZE;
+}
 
 /*******************************************************************
 * funcname:	PutData
@@ -201,6 +215,9 @@ int main()
 {   
     unsigned char read_buf[MAX_BUF_SIZE];
     pthread_t thread_other;
+
+    /* 初始化数据队列 */
+    QueueInit(&data_queue);
     ......
     
     /* 创建接收线程，主要作用是负责接收数据 */
