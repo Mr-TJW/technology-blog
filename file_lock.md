@@ -245,6 +245,8 @@ release lock by 3823
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 /*******************************************************************
 * funcname:	lock_file
@@ -303,9 +305,9 @@ bool check_process_running(void)
 
 int main(void)
 {
-    if(check_process_running == true)
+    if(check_process_running() == true)
     {
-        printff("process already running,quit!!!\n");
+        printf("process already running,quit!!!\n");
 		exit(1);
     }
 
@@ -313,6 +315,7 @@ int main(void)
     getchar();
     return 0;
 }
+
 
 ```
 
