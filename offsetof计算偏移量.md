@@ -1,8 +1,8 @@
-# offsetof
+# offsetof 结构体元素偏移量计算
 > C 库宏 offsetof(type, member-designator) 会生成一个类型为 size_t 的整型常量，可以计算一个结构成员相对于结构开头的字节偏移量。
 
 ## 描述
-offsetof 是一个宏，在 stddef.h 中定义，可以计算一个结构成员相对于结构开头的字节偏移量。
+**offsetof** 是一个宏，在 stddef.h 中定义，可以计算一个结构成员相对于结构开头的字节偏移量。
 
 ## 宏的定义
 
@@ -14,7 +14,7 @@ offsetof 是一个宏，在 stddef.h 中定义，可以计算一个结构成员�
 
 由于对象的起始地址为 0，所以成员的地址其实就是相对于对象首地址的成员的偏移地址。然后在通过类型转换，转换为 size_t 类型（size_t一般是无符号整数）。
 
-所以，offsetoff(struct_t,member)宏的作用就是获得成员member在类型struct_t中的偏移量。
+所以，offsetoff(struct_t,member)宏的作用就是获得成员 member 在类型 struct_t 中的偏移量。
 
 ## 宏的声明
 
