@@ -15,7 +15,7 @@
 pid_t waitpid(pid_t pid,int *status,int options);
 
 * 函数说明：
-    * 如果在调用 waitpid()时子进程已经结束,则 waitpid()会立即返回子进程结束状态值。 
+    * 如果在调用 waitpid() 时子进程已经结束,则 waitpid()会立即返回子进程结束状态值。 
     * 子进程的结束状态值会由参数 status 返回,而子进程的进程识别码也会一起返回。如果不在意结束状态值,则参数 status 可以设成 NULL。参数 pid 为欲等待的子进程识别码,
 
 * 参数
